@@ -6,6 +6,7 @@
 @interface RNBluetoothState() <CBCentralManagerDelegate>
 
 @property(strong, nonatomic) CBCentralManager *centralManager;
+@property(nonatomic) int state;
 
 @end
 
@@ -29,6 +30,7 @@ RCT_EXPORT_MODULE()
 
 - (NSString *) centralManagerStateToString: (int)state
 {
+    self.state = state;
     switch (state) {
         case CBCentralManagerStateUnknown:
             return @"unknown";
@@ -53,6 +55,13 @@ RCT_EXPORT_MODULE()
 {
     NSString *stateName = [self centralManagerStateToString:central.state];
     [self.bridge.eventDispatcher sendDeviceEventWithName:@"centralManagerDidUpdateState" body:stateName];
+}
+
+RCT_REMAP_METHOD(getState,
+                 resolver:(RCTPromiseResolveBlock)resolve
+                 rejecter:(RCTPromiseRejectBlock)reject) {
+  NSLog(@"BTState: %@", [self centralManagerStateToString:self.state]);
+  resolve([self centralManagerStateToString:self.state]);
 }
 
 @end
