@@ -20,7 +20,8 @@ RCT_EXPORT_MODULE()
 - (instancetype)init
 {
     if (self = [super init]) {
-        _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()];
+      _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:dispatch_get_main_queue()
+                                                           options:@{CBCentralManagerOptionShowPowerAlertKey:@0}];
     }
     
     return self;
